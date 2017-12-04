@@ -48,7 +48,8 @@ $(document).ready(function () {
                     $('.open.show').addClass('match animated infinite rubberBand');
                     setTimeout(function () {
                         $('.open.show').removeClass('open show animated infinite rubberBand').unbind("click");;
-                    }, 400);     
+                    }, 400);
+                    app.checkWin();
                 } else {
                     $('.open.show').addClass('unmatch animated infinite wobble');
                     setTimeout(function () {
@@ -71,7 +72,32 @@ $(document).ready(function () {
                 $('.stars i').eq(0).removeClass('fa-star').addClass('fa-star-o');
                 app.rating--;
             }
-        }
+        },
+        checkWin: function () {
+            if ($('.match').length === app.cards.length) {
+                let totalTime = new Date().getTime() - app.startTime;
+                let minutes = Math.floor((totalTime % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((totalTime % (1000 * 60)) / 1000);
+
+                if (seconds < 10) {
+                    seconds = "0" + seconds;
+                }
+
+                swal({
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    title: 'Congratulations! You Won!',
+                    text: 'Time ' + minutes + ':' + seconds +' With ' + app.moves + ' Moves and ' + app.rating + ' Stars.\n Woooooo!',
+                    type: 'success',
+                    confirmButtonColor: '#02ccba',
+                    confirmButtonText: 'Play again!'
+                }).then(function(isConfirm) {
+                    if (isConfirm) {
+                        app.init();
+                    }
+                })
+            }
+        },
     }
     app.init();
 });
