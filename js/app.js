@@ -98,6 +98,26 @@ $(document).ready(function () {
                 })
             }
         },
+        restart: function () {
+            $('.restart').click(function () {
+                swal({
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    title: 'Are you sure?',
+                    text: "Your progress will be Lost!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#02ccba',
+                    cancelButtonColor: '#f95c3c',
+                    confirmButtonText: 'Yes, Restart Game!'
+                }).then(function (isConfirm) {
+                    if (isConfirm) {
+                        app.init();
+                    }
+                })
+            });
+        },
     }
+    app.restart();
     app.init();
 });
