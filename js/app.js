@@ -42,6 +42,7 @@ $(document).ready(function () {
         checkMatch: function () {
             if ($('.open').length === 2) {
                 app.moves++;
+                app.setRating();
                 $('.moves').text(app.moves);
                 if ($('.open i').first().attr('class') === $('.open i').last().attr('class')) {
                     $('.open.show').addClass('match animated infinite rubberBand');
@@ -59,6 +60,18 @@ $(document).ready(function () {
                 }
             }
         },
+        setRating: function() {
+            if(app.moves === 10) { 
+                $('.stars i').eq(2).removeClass('fa-star').addClass('fa-star-o');
+                app.rating--;
+            }else if(app.moves === 20) {
+                $('.stars i').eq(1).removeClass('fa-star').addClass('fa-star-o');
+                app.rating--;
+            }else if(app.moves === 30) {
+                $('.stars i').eq(0).removeClass('fa-star').addClass('fa-star-o');
+                app.rating--;
+            }
+        }
     }
     app.init();
 });
