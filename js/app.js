@@ -24,6 +24,12 @@ $(document).ready(function () {
                 app.cards[i] = app.cards[random];
                 app.cards[random] = temp;
             }
+            app.assignCards();
+        },
+        assignCards: function () {
+            for (let i = 0 ; i < app.cards.length ; i++) {
+                $('.deck').append('<li class="card"><i class="fa ' + app.cards[i] + '"></i></li>');
+            }
         },
     }
     app.init();
