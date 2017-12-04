@@ -30,6 +30,13 @@ $(document).ready(function () {
             for (let i = 0 ; i < app.cards.length ; i++) {
                 $('.deck').append('<li class="card"><i class="fa ' + app.cards[i] + '"></i></li>');
             }
+            app.clickHandlers();
+        },
+        clickHandlers: function () {
+            $('.card:not(".match, .open")').on('click', function () {
+                if ($('.show').length > 1) { return true;}
+                $(this).addClass('open show'); 
+            });
         },
     }
     app.init();
