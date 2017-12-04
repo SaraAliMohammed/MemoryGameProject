@@ -36,7 +36,28 @@ $(document).ready(function () {
             $('.card:not(".match, .open")').on('click', function () {
                 if ($('.show').length > 1) { return true;}
                 $(this).addClass('open show'); 
+                app.checkMatch();
             });
+        },
+        checkMatch: function () {
+            if ($('.open').length === 2) {
+                app.moves++;
+                $('.moves').text(app.moves);
+                if ($('.open i').first().attr('class') === $('.open i').last().attr('class')) {
+                    $('.open.show').addClass('match animated infinite rubberBand');
+                    setTimeout(function () {
+                        $('.open.show').removeClass('open show animated infinite rubberBand').unbind("click");;
+                    }, 400);     
+                } else {
+                    $('.open.show').addClass('unmatch animated infinite wobble');
+                    setTimeout(function () {
+                        $('.open.show').removeClass('animated infinite wobble');
+                    }, 400);
+                    setTimeout(function () {
+                        $('.open.show').removeClass('open show unmatch');
+                    }, 800);
+                }
+            }
         },
     }
     app.init();
