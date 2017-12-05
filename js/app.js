@@ -5,15 +5,22 @@ $(document).ready(function () {
         'fa-leaf', 'fa-bicycle', 'fa-bicycle', 'fa-bomb', 'fa-bomb'],
         moves: 0,
         rating: 3,
-        startTime: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+        timerInterval: "",
         init: function () {
-            app.startTime = new Date().getTime();
             app.moves = 0;
+            app.hours = 0;
+            app.minutes = 0;
+            app.seconds = 0;
             $('.moves').text('0');
             if($('.fa-star-o').length !== 0)
                 $('.stars i').removeClass('fa-star-o').addClass('fa-star');
             $('.deck').html("");
             app.shuffle();
+            $('.timer').text("00:00:00");
+            app.timerInterval = setInterval(function(){app.timer()},1000);
         },
         shuffle: function () {
             let random = 0;
@@ -75,19 +82,16 @@ $(document).ready(function () {
         },
         checkWin: function () {
             if ($('.match').length === app.cards.length) {
-                let totalTime = new Date().getTime() - app.startTime;
-                let minutes = Math.floor((totalTime % (1000 * 60 * 60)) / (1000 * 60));
-                let seconds = Math.floor((totalTime % (1000 * 60)) / 1000);
-
-                if (seconds < 10) {
-                    seconds = "0" + seconds;
-                }
+                clearInterval(app.timerInterval);
+                let sec = app.seconds < 10 ? '0' + app.seconds : app.seconds;
+                let min = app.minutes < 10 ? '0' + app.minutes : app.minutes;
+                let hour = app.hours < 10 ? '0' + app.hours : app.hours;
 
                 swal({
                     allowEscapeKey: false,
                     allowOutsideClick: false,
                     title: 'Congratulations! You Won!',
-                    text: 'Time ' + minutes + ':' + seconds +' With ' + app.moves + ' Moves and ' + app.rating + ' Stars.\n Woooooo!',
+                    text: 'Time ' + hour + ':' + min + ':' + sec +' With ' + app.moves + ' Moves and ' + app.rating + ' Stars.\n Woooooo!',
                     type: 'success',
                     confirmButtonColor: '#02ccba',
                     confirmButtonText: 'Play again!'
@@ -112,11 +116,31 @@ $(document).ready(function () {
                     confirmButtonText: 'Yes, Restart Game!'
                 }).then(function (isConfirm) {
                     if (isConfirm) {
+                        clearInterval(app.timerInterval);
                         app.init();
                     }
                 })
             });
         },
+        timer: function () {
+            app.seconds++;
+            if(app.seconds == 60)
+            {   
+                app.seconds = 0;
+                app.minutes++;
+                if(app.minutes == 60)
+                {
+                    app.minutes = 0;
+                    app.hours++;
+                }
+            }
+           
+            let sec = app.seconds < 10 ? '0' + app.seconds : app.seconds;
+            let min = app.minutes < 10 ? '0' + app.minutes : app.minutes;
+            let hour = app.hours < 10 ? '0' + app.hours : app.hours;
+                      
+            $('.timer').text(hour + ':' + min + ':' + sec);
+        }
     }
     app.restart();
     app.init();

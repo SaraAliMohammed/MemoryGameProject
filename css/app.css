@@ -120,6 +120,10 @@ h1 {
     cursor: pointer;
 }
 
+.score-panel .timer {
+    margin-left: 25px;
+}
+
 .swal2-overlay {
   background-color: white;
 }
