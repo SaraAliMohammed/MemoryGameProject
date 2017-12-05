@@ -10,6 +10,7 @@ $(document).ready(function () {
         seconds: 0,
         timerInterval: "",
         init: function () {
+            //reset all variables and became in intial state
             app.moves = 0;
             app.hours = 0;
             app.minutes = 0;
@@ -23,6 +24,7 @@ $(document).ready(function () {
             app.timerInterval = setInterval(function(){app.timer()},1000);
         },
         shuffle: function () {
+            //randomly shuffles the cards
             let random = 0;
             let temp = 0;
             for (let i = 1 ; i < app.cards.length ; i++) {
@@ -34,6 +36,7 @@ $(document).ready(function () {
             app.assignCards();
         },
         assignCards: function () {
+            //create cards in the .deck div
             for (let i = 0 ; i < app.cards.length ; i++) {
                 $('.deck').append('<li class="card"><i class="fa ' + app.cards[i] + '"></i></li>');
             }
@@ -47,6 +50,7 @@ $(document).ready(function () {
             });
         },
         checkMatch: function () {
+            //check matching of two opened cards 
             if ($('.open').length === 2) {
                 app.moves++;
                 app.setRating();
@@ -69,6 +73,7 @@ $(document).ready(function () {
             }
         },
         setRating: function() {
+            //set star rating depending on number of moves
             if(app.moves === 10) { 
                 $('.stars i').eq(2).removeClass('fa-star').addClass('fa-star-o');
                 app.rating--;
@@ -81,12 +86,14 @@ $(document).ready(function () {
             }
         },
         checkWin: function () {
+            //check if the player opened all cards and win the game
             if ($('.match').length === app.cards.length) {
                 clearInterval(app.timerInterval);
                 let sec = app.seconds < 10 ? '0' + app.seconds : app.seconds;
                 let min = app.minutes < 10 ? '0' + app.minutes : app.minutes;
                 let hour = app.hours < 10 ? '0' + app.hours : app.hours;
 
+                //pop up with detalis of moves and time taken 
                 swal({
                     allowEscapeKey: false,
                     allowOutsideClick: false,
@@ -103,7 +110,9 @@ $(document).ready(function () {
             }
         },
         restart: function () {
+            //add restart event listener to restart span 
             $('.restart').click(function () {
+                //pop up to confirm restart
                 swal({
                     allowEscapeKey: false,
                     allowOutsideClick: false,
@@ -123,6 +132,7 @@ $(document).ready(function () {
             });
         },
         timer: function () {
+            //increase time to calculate time during the game
             app.seconds++;
             if(app.seconds == 60)
             {   
